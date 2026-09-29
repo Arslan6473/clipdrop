@@ -1,12 +1,24 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Clock, ExternalLink, FileVideo, RotateCcw, User } from "lucide-react";
 import { BrandIcon } from "@/components/platform/brand-icon";
 import type { AnalyzeResponse } from "@/lib/providers/types";
+import { matchVideoUrl } from "@/lib/platforms/detect-platform";
 import { formatDuration } from "@/lib/utils/format-duration";
 import { FormatList } from "./format-list";
+import { YouTubeEmbed } from "./youtube-embed";
+
+/** YouTube video ID for the embedded player, taken from the analyzed link. */
+function youtubeId(url: string): string | null {
+  try {
+    const match = matchVideoUrl(new URL(url));
+    return match?.source === "youtube" ? match.id : null;
+  } catch {
+    return null;
+  }
+}
 
 export function VideoResult({
   data,
@@ -22,12 +34,19 @@ export function VideoResult({
   const duration = formatDuration(video.durationSeconds);
   const headingRef = useRef<HTMLHeadingElement>(null);
   useEffect(() => headingRef.current?.focus(), []);
+  const embedId = useMemo(() => (video.source === "youtube" ? youtubeId(sourceUrl) : null), [video.source, sourceUrl]);
+  const [durationHidden, setDurationHidden] = useState(false);
 
   return (
     <article className="animate-fade-up text-left">
       <div className="grid gap-5 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:gap-6">
-        <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-muted ring-1 ring-border">
-          {video.thumbnailUrl ? (
+        <div
+          className="relative aspect-video w-full overflow-hidden rounded-xl bg-muted ring-1 ring-border"
+          onClickCapture={() => embedId && setDurationHidden(true)}
+        >
+          {embedId ? (
+            <YouTubeEmbed videoId={embedId} title={video.title} thumbnailUrl={video.thumbnailUrl} />
+          ) : video.thumbnailUrl ? (
             <Image
               src={video.thumbnailUrl}
               alt=""
@@ -44,8 +63,8 @@ export function VideoResult({
               )}
             </div>
           )}
-          {duration && (
-            <span className="absolute right-2 bottom-2 rounded-md bg-black/75 px-1.5 py-0.5 text-xs font-medium text-white tabular-nums">
+          {duration && !durationHidden && (
+            <span className="pointer-events-none absolute right-2 bottom-2 rounded-md bg-black/75 px-1.5 py-0.5 text-xs font-medium text-white tabular-nums">
               {duration}
             </span>
           )}

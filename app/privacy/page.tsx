@@ -64,7 +64,9 @@ export default function PrivacyPage() {
           body: (
             <p>
               To analyze a link we contact the platform it belongs to (for example YouTube or TikTok). Thumbnails are
-              loaded through our image optimizer. Those platforms have their own privacy policies.
+              loaded through our image optimizer. For YouTube links you can play the video on the page:
+              YouTube&apos;s player (from its privacy-enhanced youtube-nocookie.com domain) only loads when you press
+              play. Those platforms have their own privacy policies.
             </p>
           ),
         },
