@@ -77,7 +77,7 @@ async function call<T>(path: string, body: object, timeoutMs: number): Promise<T
   throw new ProviderError(code);
 }
 
-const FORMAT_ID = /^[A-Za-z0-9_.-]{1,16}$/;
+const FORMAT_ID = /^[A-Za-z0-9_.-]{1,32}$/;
 
 function toFormats(raw: unknown[]): VideoFormat[] {
   return raw.flatMap((item) => {
