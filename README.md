@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ClipDrop
 
-## Getting Started
+An anonymous, stateless video downloader built with Next.js 16 (App Router), TypeScript, Tailwind v4 and shadcn/ui. No accounts, no database, no download history.
 
-First, run the development server:
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env.local   # optional tokens, see below
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Checks: `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## What actually downloads
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+ClipDrop only uses authorized mechanisms. It never scrapes, bypasses logins/DRM or fakes formats.
 
-## Learn More
+| Source | Metadata | Downloads |
+| --- | --- | --- |
+| Direct public video files (.mp4/.webm/.mov/.m4v/.ogv) | Header check through the SSRF guard | ✅ Straight from the host |
+| YouTube, TikTok | Public oEmbed | ❌ No authorized third-party mechanism, so the UI says so |
+| Instagram, Facebook | Meta oEmbed (needs `META_OEMBED_ACCESS_TOKEN`) | ❌ Same as above |
 
-To learn more about Next.js, take a look at the following resources:
+**Downloader API (optional).** For real downloads from those platforms, deploy `downloader-api/` (FastAPI + yt-dlp + ffmpeg) on Railway and set `DOWNLOADER_API_URL` and `DOWNLOADER_API_KEY` here. See `downloader-api/README.md`. Only public content is supported, and downloading from these platforms may be restricted by their terms of service.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To add a source, implement `VideoProvider` (`lib/providers/types.ts`) and register it in `lib/providers/registry.ts`. The frontend never knows how a specific platform works.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Structure
 
-## Deploy on Vercel
+- `app/`: pages (home, 9 tool pages, legal), `api/video/{analyze,download}`, `sitemap.ts`, `robots.ts`, OG image
+- `components/downloader/`: the client-side paste → analyze → download flow
+- `components/platform/`, `components/sections/`: shared page building blocks (PlatformHero, PlatformFAQ, HowItWorks, RelatedTools and more)
+- `lib/content/`: all page copy and SEO text. Each tool page is one data entry.
+- `lib/platforms/`: URL normalization, validation and platform detection (safe to run in the browser)
+- `lib/providers/`: provider abstraction, per-platform providers, error codes
+- `lib/security/`: SSRF guard (DNS checked at connect time, redirects re-validated) and an in-memory, hashed-IP rate limiter
+- `lib/config/site.ts`: brand name, tagline and URL. The accent color is `--brand` in `app/globals.css`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Notes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- The rate limiter runs per instance. On multi-instance hosting, add a platform firewall rule (e.g. Vercel WAF) for a global limit.
+- Thumbnails only load from allowlisted CDNs (`lib/config/remote-images.ts`).

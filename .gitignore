@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+!.env.example
+
+# downloader-api (Python)
+downloader-api/.venv/
+downloader-api/**/__pycache__/
+downloader-api/.pytest_cache/
