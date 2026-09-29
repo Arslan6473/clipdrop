@@ -18,7 +18,7 @@ export const TOOL_PAGES = {
       eyebrow: "YouTube",
       title: "YouTube Video Downloader",
       description:
-        "Analyze supported YouTube video URLs and download content you own or are authorized to download in available formats.",
+        "Paste a YouTube link to see the video's details and any download options available for it.",
     },
     inputPlaceholder: "Paste YouTube URL",
     availability: {

@@ -12,24 +12,27 @@ export const DOWNLOADER_COPY: Record<string, { availability: ToolPageContent["av
   "/youtube-downloader": {
     availability: {
       title: "What's available for YouTube",
-      body: `Paste a public YouTube video or Short and ClipDrop lists the resolutions YouTube serves, from 360p up to 4K where available, plus audio only. HD options are delivered as MP4 with audio. ${LIMITS}`,
+      body: "Paste a public YouTube video or Short and ClipDrop shows its title, channel and thumbnail. YouTube currently blocks downloads from our servers, so download options usually won't appear for YouTube links. When YouTube allows it, the available formats are listed automatically. To keep videos for offline viewing, use YouTube's own download button (YouTube Premium). Creators can download their own uploads from YouTube Studio.",
     },
     faqs: [
       {
-        question: "Which YouTube qualities can I download?",
-        answer: "Whatever the video offers publicly, typically 360p to 1080p and sometimes 1440p or 4K, plus an audio-only M4A file.",
+        question: "Why can't I download this YouTube video?",
+        answer:
+          "YouTube blocks automated downloads from cloud servers like ours with a “confirm you're not a bot” check. We don't try to get around it, so most YouTube links show video details only.",
       },
       {
-        question: "Can I download private or members-only YouTube videos?",
-        answer: "No. ClipDrop never signs in to YouTube, so only public videos work.",
+        question: "How can I watch YouTube videos offline?",
+        answer:
+          "YouTube Premium lets you download videos in the official YouTube app for offline viewing. It's the supported way to save YouTube videos.",
       },
       {
-        question: "Why does YouTube sometimes show “temporarily unavailable”?",
-        answer: "YouTube occasionally limits automated access. When that happens you'll still see the video details, and you can try again a little later.",
+        question: "How do I download my own YouTube videos?",
+        answer:
+          "Open YouTube Studio → Content, then choose Download from the menu next to your video. For all your uploads at once, use Google Takeout.",
       },
       {
-        question: "Am I allowed to download YouTube videos?",
-        answer: "Only download videos you own, have permission to download, or that are licensed for it (for example Creative Commons). You're responsible for following YouTube's terms and copyright law.",
+        question: "Which platforms can I download from?",
+        answer: "Public videos from Instagram, TikTok and Facebook, plus direct links to video files.",
       },
     ],
   },
@@ -68,7 +71,7 @@ export const DOWNLOADER_COPY: Record<string, { availability: ToolPageContent["av
   "/universal-video-downloader": {
     availability: {
       title: "What the universal downloader supports",
-      body: `Paste a public link from YouTube, Instagram, TikTok or Facebook, or a direct link to a video file (.mp4, .webm, .mov). ClipDrop detects the source and lists the formats available. ${LIMITS}`,
+      body: `Paste a public link from YouTube, Instagram, TikTok or Facebook, or a direct link to a video file (.mp4, .webm, .mov). ClipDrop detects the source and lists the formats available. YouTube links usually show details only, because YouTube blocks downloads from our servers. ${LIMITS}`,
     },
   },
   "/video-to-mp4": {
@@ -80,7 +83,7 @@ export const DOWNLOADER_COPY: Record<string, { availability: ToolPageContent["av
 };
 
 export const PLATFORM_AVAILABILITY_WITH_DOWNLOADER: Record<PlatformId, string> = {
-  youtube: "Public videos & Shorts",
+  youtube: "Video details",
   instagram: "Public Reels & posts",
   tiktok: "Public videos",
   facebook: "Public videos & Reels",

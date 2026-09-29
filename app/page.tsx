@@ -25,7 +25,7 @@ export const metadata = buildMetadata({
 });
 
 const DOWNLOADER_PLATFORMS_ANSWER =
-  "ClipDrop works with public videos from YouTube, Instagram, TikTok and Facebook, plus direct links to video files. Private, login-protected and DRM-protected content isn't supported.";
+  "ClipDrop downloads public videos from Instagram, TikTok and Facebook, plus direct links to video files. YouTube links show the video's details; YouTube currently blocks downloads from our servers. Private, login-protected and DRM-protected content isn't supported.";
 
 export default function HomePage() {
   const faqs = downloaderEnabled()
