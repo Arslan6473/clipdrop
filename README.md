@@ -22,7 +22,7 @@ ClipDrop only uses authorized mechanisms. It never scrapes, bypasses logins/DRM 
 | YouTube, TikTok | Public oEmbed | ❌ No authorized third-party mechanism, so the UI says so |
 | Instagram, Facebook | Meta oEmbed (needs `META_OEMBED_ACCESS_TOKEN`) | ❌ Same as above |
 
-**Downloader API (optional).** For real downloads from those platforms, deploy `downloader-api/` (FastAPI + yt-dlp + ffmpeg) on Railway and set `DOWNLOADER_API_URL` and `DOWNLOADER_API_KEY` here. See `downloader-api/README.md`. Only public content is supported, and downloading from these platforms may be restricted by their terms of service.
+**Downloader API (optional).** For real downloads from those platforms, deploy the [downloader API](https://github.com/Arslan6473/clipdrop-api) (FastAPI + yt-dlp + ffmpeg) on Railway and set `DOWNLOADER_API_URL` and `DOWNLOADER_API_KEY` here. See that repo's README. Only public content is supported, and downloading from these platforms may be restricted by their terms of service.
 
 To add a source, implement `VideoProvider` (`lib/providers/types.ts`) and register it in `lib/providers/registry.ts`. The frontend never knows how a specific platform works.
 

@@ -11,7 +11,7 @@ import { cleanText } from "../http";
 import type { DownloadResult, VideoFormat, VideoInfo, VideoProvider } from "../types";
 
 /**
- * Talks to the ClipDrop downloader API (downloader-api/, deployed separately, e.g. on Railway).
+ * Talks to the ClipDrop downloader API (github.com/Arslan6473/clipdrop-api, deployed on e.g. Railway).
  * That service extracts public videos with yt-dlp and hosts prepared files for a few minutes.
  * The browser downloads files straight from it, so large videos never pass through this server.
  */
