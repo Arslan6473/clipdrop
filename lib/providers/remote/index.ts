@@ -137,7 +137,14 @@ export function createRemoteProvider(source: PlatformId, fallback: VideoProvider
           thumbnailUrl: (video.thumbnailCandidates ?? []).find((t) => isAllowedThumbnail(t)),
         };
       } catch (err) {
-        if (recoverable(err)) return fallback.analyze(url);
+        if (recoverable(err)) {
+          // Platforms sometimes block the download server (e.g. YouTube's bot check); say so plainly.
+          const info = await fallback.analyze(url);
+          return {
+            ...info,
+            downloadNotice: `${SOURCE_NAMES[source]} is limiting downloads from our server right now. Please try again later.`,
+          };
+        }
         throw err;
       }
     },

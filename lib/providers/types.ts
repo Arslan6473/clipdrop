@@ -10,6 +10,8 @@ export interface VideoInfo {
   thumbnailUrl?: string;
   durationSeconds?: number;
   author?: string;
+  /** Why no downloads are offered, when the reason is known (e.g. the platform is blocking us). */
+  downloadNotice?: string;
 }
 
 export interface VideoFormat {

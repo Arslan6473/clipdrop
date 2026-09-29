@@ -67,6 +67,7 @@ describe("remote downloader provider", () => {
     const body = await (await analyze(req({ url: uniqueYt() }))).json();
     expect(body.video.title).toBe("From oEmbed");
     expect(body.formats).toEqual([]);
+    expect(body.notice).toBe("YouTube is limiting downloads from our server right now. Please try again later.");
   });
 
   it("passes user-facing errors through (e.g. private videos)", async () => {

@@ -27,7 +27,7 @@ export async function analyzeVideo(rawUrl: string): Promise<AnalyzeResponse> {
     success: true,
     video,
     formats,
-    notice: formats.length === 0 ? ERROR_MESSAGES.DOWNLOADS_UNAVAILABLE : undefined,
+    notice: formats.length === 0 ? (video.downloadNotice ?? ERROR_MESSAGES.DOWNLOADS_UNAVAILABLE) : undefined,
   };
 }
 

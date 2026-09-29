@@ -20,8 +20,8 @@ export function FormatList({ formats, videoUrl, notice }: { formats: VideoFormat
           <div className="text-left">
             <p className="font-medium">{notice ?? "Downloads aren't currently available for this source."}</p>
             <p className="mt-1 text-sm text-muted-foreground">
-              We found the video, but this platform doesn&apos;t offer an authorized download option for it. We never
-              bypass platform restrictions.
+              We found the video, but there are no download options for it right now. Private and DRM-protected videos
+              are never supported.
             </p>
           </div>
         </div>
